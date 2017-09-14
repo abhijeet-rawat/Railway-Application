@@ -243,12 +243,14 @@ class getTrains implements Runnable
         textArea.setLineWrap(true);  
         textArea.setWrapStyleWord(true); 
         scrollPane.setPreferredSize(new Dimension(500,d1.height-200));
-        JOptionPane.showMessageDialog(null, scrollPane, "Trains Between Stations",  
+        JOptionPane.showMessageDialog(null, scrollPane, "Trains Between Station",  
                                        JOptionPane.INFORMATION_MESSAGE);
         
       }
       
     }
+    
+    
     catch(Exception r)
     {
        JOptionPane.showMessageDialog(null,"Bad Internet Connectivity \n Or Wrong Input");
