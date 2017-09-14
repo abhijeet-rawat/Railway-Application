@@ -20,7 +20,7 @@ public class TrainsBetweenStations extends JPanel implements ActionListener,Item
   JComboBox jcb1,jcb2,jcb3;
   JButton jb;
   String dd="1",mm="1",yyyy="2017",srcc="",destc="";
-  
+   Dimension d1;
   Font f,f1;  
   
   TrainsBetweenStations()
@@ -28,6 +28,7 @@ public class TrainsBetweenStations extends JPanel implements ActionListener,Item
     this.setLayout(null);
     Toolkit tk=Toolkit.getDefaultToolkit();
     Dimension d=tk.getScreenSize();
+    d1=d;
     this.setBounds(d.width/6,0,d.width,d.height);
     this.setBackground(Color.LIGHT_GRAY);
     
@@ -142,7 +143,7 @@ public class TrainsBetweenStations extends JPanel implements ActionListener,Item
   {
     if(e.getSource()==jb)
     {
-      new getTrains(jtf1.getText(),jtf2.getText(),dd+"-"+mm+"-"+yyyy);       
+      new getTrains(jtf1.getText(),jtf2.getText(),dd+"-"+mm+"-"+yyyy,d1);       
     }
   }
 
@@ -154,9 +155,10 @@ class getTrains implements Runnable
   String date;
   String source;
   String dest;
-  
-  public getTrains(String source,String dest,String date)
+  Dimension d1;
+  public getTrains(String source,String dest,String date,Dimension d1)
   {
+    this.d1=d1;
     th=new Thread(this);
     this.date=date;
     this.source=source;
@@ -176,7 +178,7 @@ class getTrains implements Runnable
       
       String data=br.readLine();
       
-      String disp="----------Trains Between the Stations----------\n\n";
+      String disp="";
       
       JSONParser jp=new JSONParser();
       
@@ -184,14 +186,19 @@ class getTrains implements Runnable
       
       JSONArray jarr= (JSONArray)json.get("trains");
       
+     // String disp1[][]= new String[jarr.size()][1];
+      
       if(jarr.size()==0)
       {
         disp+= "No Trains Available\n";
       }
       else
       {
+          
         for(int i=0;i<jarr.size();i++)
         {
+       //   String disp=""; 
+          
           disp+="Train Number :-";  
           disp+=  (String)(((JSONObject)jarr.get(i)).get("number"))+"\n";
           disp+="Train Name :-";
@@ -233,16 +240,48 @@ class getTrains implements Runnable
             }
           }
           disp+=(cc1+"\n");
-          disp+="---------------------------------------------------------------\n";       
+          disp+="---------------------------------------------------------------\n";
+          
+        //  disp1[i][0]=disp;
         }
-        JOptionPane.showMessageDialog(null,disp);
+        //JOptionPane.showMessageDialog(null,disp);
+        
+        JTextArea textArea = new JTextArea(disp);
+        JScrollPane scrollPane = new JScrollPane(textArea);  
+        textArea.setLineWrap(true);  
+        textArea.setWrapStyleWord(true); 
+        scrollPane.setPreferredSize(new Dimension(500,d1.height));
+        JOptionPane.showMessageDialog(null, scrollPane, "Trains Between Stations",  
+                                       JOptionPane.INFORMATION_MESSAGE);
+        
+        
+        //new TableExample3(disp1,"Trains Between Stations");
+        
       }
       
     }
     catch(Exception r)
     {
        JOptionPane.showMessageDialog(null,"Bad Internet Connectivity \n Or Wrong Input");
+       
+       r.printStackTrace();
     }    
   }
 
+}
+
+class TableExample3 
+{    
+    JFrame f;    
+    TableExample3(String data[][],String title){    
+    f=new JFrame(title);   
+
+    String column[]={"---------------Trains---------------"};         
+    JTable jt=new JTable(data,column);    
+    jt.setBounds(100,50,400,400);          
+    JScrollPane sp=new JScrollPane(jt);    
+    f.add(sp);          
+    f.setSize(400,400);    
+    f.setVisible(true);    
+  }
 }
