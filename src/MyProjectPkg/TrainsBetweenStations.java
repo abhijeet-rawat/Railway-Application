@@ -186,19 +186,14 @@ class getTrains implements Runnable
       
       JSONArray jarr= (JSONArray)json.get("trains");
       
-     // String disp1[][]= new String[jarr.size()][1];
-      
       if(jarr.size()==0)
       {
         disp+= "No Trains Available\n";
       }
       else
-      {
-          
+      {    
         for(int i=0;i<jarr.size();i++)
-        {
-       //   String disp=""; 
-          
+        { 
           disp+="Train Number :-";  
           disp+=  (String)(((JSONObject)jarr.get(i)).get("number"))+"\n";
           disp+="Train Name :-";
@@ -241,21 +236,15 @@ class getTrains implements Runnable
           }
           disp+=(cc1+"\n");
           disp+="---------------------------------------------------------------\n";
-          
-        //  disp1[i][0]=disp;
         }
-        //JOptionPane.showMessageDialog(null,disp);
         
         JTextArea textArea = new JTextArea(disp);
         JScrollPane scrollPane = new JScrollPane(textArea);  
         textArea.setLineWrap(true);  
         textArea.setWrapStyleWord(true); 
-        scrollPane.setPreferredSize(new Dimension(500,d1.height));
+        scrollPane.setPreferredSize(new Dimension(500,d1.height-200));
         JOptionPane.showMessageDialog(null, scrollPane, "Trains Between Stations",  
                                        JOptionPane.INFORMATION_MESSAGE);
-        
-        
-        //new TableExample3(disp1,"Trains Between Stations");
         
       }
       
@@ -263,25 +252,7 @@ class getTrains implements Runnable
     catch(Exception r)
     {
        JOptionPane.showMessageDialog(null,"Bad Internet Connectivity \n Or Wrong Input");
-       
-       r.printStackTrace();
     }    
   }
 
-}
-
-class TableExample3 
-{    
-    JFrame f;    
-    TableExample3(String data[][],String title){    
-    f=new JFrame(title);   
-
-    String column[]={"---------------Trains---------------"};         
-    JTable jt=new JTable(data,column);    
-    jt.setBounds(100,50,400,400);          
-    JScrollPane sp=new JScrollPane(jt);    
-    f.add(sp);          
-    f.setSize(400,400);    
-    f.setVisible(true);    
-  }
 }

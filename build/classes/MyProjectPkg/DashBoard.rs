@@ -1,0 +1,6 @@
+MyProjectPkg.DashBoardFrame
+MyProjectPkg.DashBoard
+MyProjectPkg.RightPanel
+MyProjectPkg.RightPanel1
+MyProjectPkg.LeftPanel
+MyProjectPkg.LeftMenu
